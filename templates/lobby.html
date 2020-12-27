@@ -60,6 +60,8 @@
                         <button id="word-button-zero" class="dialog-button" onclick="chooseWord(0)">Placeholder</button>
                         <button id="word-button-one" class="dialog-button" onclick="chooseWord(1)">Placeholder</button>
                         <button id="word-button-two" class="dialog-button" onclick="chooseWord(2)">Placeholder</button>
+                        <input id="custom-word" type="text" autocomplete="off" placeholder="Write your word"/>
+                        <button class="dialog-button" onclick="customWord(document.getElementById('custom-word').value)">Send Word</button>
                     </div>
                 </div>
 
@@ -426,6 +428,15 @@
         socket.send(JSON.stringify({
             type: "choose-word",
             data: index
+        }));
+        allowDrawing = true;
+        wordDialog.style.visibility = "hidden";
+    }
+
+    function customWord(word) {
+        socket.send(JSON.stringify({
+            type: "custom-word-event",
+            data: word
         }));
         allowDrawing = true;
         wordDialog.style.visibility = "hidden";

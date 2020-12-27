@@ -133,6 +133,18 @@ func HandleEvent(raw []byte, received *JSEvent, lobby *Lobby, player *Player) er
 			lobby.WordHintsShown = createWordHintFor(lobby.CurrentWord, true)
 			triggerWordHintUpdate(lobby)
 		}
+
+	} else if received.Type == "custom-word-event" {
+
+		drawer := lobby.Drawer
+		if player == drawer {
+			lobby.CurrentWord = received.Data.(string)
+			lobby.WordChoice = nil
+			lobby.WordHints = createWordHintFor(lobby.CurrentWord, false)
+			lobby.WordHintsShown = createWordHintFor(lobby.CurrentWord, true)
+			triggerWordHintUpdate(lobby)
+		}
+
 	} else if received.Type == "kick-vote" {
 		if !lobby.EnableVotekick {
 			// Votekicking is disabled in the lobby
